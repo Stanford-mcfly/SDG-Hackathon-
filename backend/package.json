@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend for sdg",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stanford-mcfly/SDG-Hackathon-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stanford-mcfly/SDG-Hackathon-/issues"
+  },
+  "homepage": "https://github.com/Stanford-mcfly/SDG-Hackathon-#readme",
+  "dependencies": {
+    "express": "^4.19.1"
+  }
+}
