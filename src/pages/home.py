@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.write("# ⚡ ZapSpot")
+st.write("### ⚡ ZapSpot")
 st.markdown(
     """
     <style>
@@ -82,7 +82,7 @@ with open("../maps/routing.html", "r") as file:
 st.markdown("<div class='centered'>", unsafe_allow_html=True)
 components.html(
     content,
-    height=700
+    height=600
 
 )
 st.markdown("</div>", unsafe_allow_html=True)

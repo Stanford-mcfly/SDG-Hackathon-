@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 st.sidebar.title('')
-st.write("# ⚡ ZapSpot")
+st.write("### ⚡ ZapSpot")
 def register():
     
     

@@ -10,13 +10,14 @@ def main():
     
         working_station = st.text_input("Enter your working station:")
         working_condition = st.radio("Enter your working condition:", ("Working", "Not working"))
-        slot = st.number_input("Enter no of free slots:")
+        slot = st.number_input("Enter no of free slots:",format='%.0f')
         ldata = {'location': working_station, 'status': True if(working_condition == "Working" ) else False , 'slots' : slot}
         if st.button('Submit'):
          if working_station:
            response = requests.post('http://localhost:5000/operpage',json=ldata).json()
+           st.success("Data Submitted Successfully")
     else:
-       st.write("# Your are not an operator")
+       st.error("# You are not an operator")
 
 if __name__ == "__main__":
     main()
