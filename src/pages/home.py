@@ -3,6 +3,9 @@ import streamlit.components.v1 as components
 from screeninfo import get_monitors
 from streamlit_extras.switch_page_button import switch_page
 
+
+
+
 st.set_page_config(
     page_title="Zapspot - EV Charging station finder",
     page_icon="../img/icon.png",
@@ -10,17 +13,14 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-
-
-
-st.sidebar.button('Toggle Sidebar')
+st.write("# ⚡ ZapSpot")
 st.markdown(
     """
     <style>
     @media only screen and (max-width: 1200px) {
         .sidebar .sidebar-content {
             width: 100%;
-            height: 40%;
+            height: 30%;
             position: fixed;
             bottom: 0;
             left: 0;
@@ -32,7 +32,7 @@ st.markdown(
     }
     @media only screen and (min-width: 1201px) {
         .sidebar .sidebar-content {
-            width: 40%;
+            width: 300px;
         }
     }
     </style>
@@ -55,7 +55,7 @@ st.markdown(
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
          /* Ensure it's on top of other elements */
         display: flex;
         justify-content: center;
@@ -82,26 +82,26 @@ with open("../maps/routing.html", "r") as file:
 st.markdown("<div class='centered'>", unsafe_allow_html=True)
 components.html(
     content,
-    height=800
+    height=700
 
 )
 st.markdown("</div>", unsafe_allow_html=True)
 
 
 
-st.sidebar.title('Sidebar Title')
+st.sidebar.title('')
 
-# Add text to the sidebar
-st.sidebar.text('This is a sidebar')
+# # Add text to the sidebar
+#st.sidebar.text('This is a sidebar')
 
-# Add a slider to the sidebar
-slider_value = st.sidebar.slider('Slider', 0, 100, 50)
+# # Add a slider to the sidebar
+# slider_value = st.sidebar.slider('Slider', 0, 100, 50)
 
-# Add a button to the sidebar
-if st.sidebar.button('Click me'):
-    st.sidebar.write('Button clicked!')
+# # Add a button to the sidebar
+# if st.sidebar.button('Click me'):
+#     st.sidebar.write('Button clicked!')
 
-# Add a selectbox to the sidebar
-option = st.sidebar.selectbox(
-    'Which number do you like best?',
-    [1, 2, 3, 4, 5])
+# # Add a selectbox to the sidebar
+# option = st.sidebar.selectbox(
+#     'Which number do you like best?',
+#     [1, 2, 3, 4, 5])

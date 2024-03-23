@@ -8,7 +8,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
+st.sidebar.title('')
+st.write("# ⚡ ZapSpot")
 
 # Configure GenAI API key
 genai.configure(api_key="AIzaSyDn_X_T1dvsryDGnByWw2Mdm9HL4HsNKyU")
