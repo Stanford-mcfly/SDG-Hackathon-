@@ -5,7 +5,7 @@ require('dotenv').config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 app.use(cors());
-const Registermodel = require("./models/registerdb");
+const { Registermodel, stationmodel } = require('./models/registerdb.js');
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const session = require('express-session');
@@ -14,13 +14,16 @@ const connectionString = 'mongodb+srv://vijay:vijay67@sdg.uilubmu.mongodb.net/?r
 
 mongoose.connect(connectionString, {
 })
-  .then(() => {
-    console.log('Connected to MongoDB Atlas');
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB Atlas:', error);
-  });
-//FF
+
+const db = mongoose.connection;
+db.on("connected", () => {
+  console.log("MongoDB connected successfully");
+});
+db.on("error", (err) => {
+  console.log("MongoDB connection error:", err);
+});
+
+
 app.use(session({
     secret: 'secretcode',
     resave: false,
@@ -84,5 +87,42 @@ function isAuthenticated(req, res, next) {
     }
   });
 
+
+
+
+console.log("Server is running on port:", port);
+
+async function findStation() {
+    try {
+        const station = await stationmodel.findOne({phone:18008332233});
+        console.log(station.name);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+findStation();
+
+// const stationData = {
+//     name: "CESL - Alandur Metro Charging Station",
+//     address: "Grand Southern Trunk Road, St Thomas Mount",
+//     status: true,
+//     phone: 18008332233,
+//     connectors: "CCS-II",
+//     direction_img: "img",
+//     opentime: "12:00 AM - 11:59 PM"
+// };
+
+// const station = new stationmodel(stationData);
+// async function saveStation() {
+//     try {
+//         const savedStation = await station.save();
+//         console.log("Station inserted successfully:", savedStation);
+//     } catch (error) {
+//         console.error("Error inserting station:", error);
+//     }
+// }
+
+// saveStation();
 
 

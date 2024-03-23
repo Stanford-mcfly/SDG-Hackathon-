@@ -25,5 +25,34 @@ const registerSchema = new mongoose.Schema({
         trim: true
     },
 },{timestamps: true});
-const Registermodel = mongoose.model('Register', registerSchema);
-module.exports = Registermodel;
+const stationschema = new mongoose.Schema({
+    name: {
+        type: String,
+        max: 255,
+        trim: true
+    },
+    address: {
+        type: String,
+        max: 1024,
+        trim: true
+    },
+    status: {
+        type: Boolean,
+        trim: true
+    },
+    phone : {
+        type: Number,
+        trim: true
+    },
+    connectors: {
+        type: String,
+        trim: true
+    },
+    opentime: {
+        type: String,
+        trim: true
+    }
+ });
+const Registermodel = mongoose.model('register', registerSchema);
+const stationmodel = mongoose.model('stations',stationschema);
+module.exports = {Registermodel,stationmodel};
