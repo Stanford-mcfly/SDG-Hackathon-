@@ -1,9 +1,11 @@
 import requests
 import streamlit as st
+from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(
     page_title="Zapspot - EV Charging station finder",
-    page_icon="img/icon.png", 
+    page_icon="../img/icon.png", 
+    initial_sidebar_state="collapsed"
 )
 
 
@@ -28,6 +30,7 @@ def register():
             response = requests.post('http://localhost:5000/register', json=login_data).json()
             if(response['success']):
                 st.success('Register successful!')
+                switch_page("home")
             else:
                 st.error("Wrong Email or Password")
            
@@ -41,7 +44,8 @@ def login():
     email = st.text_input('Email')
     password = st.text_input('Password', type='password')
     user_type = st.selectbox('User Type', ['User', 'Operator'])
-    
+    if st.button("Home"):
+        switch_page("home")
     if st.button('Login'):
         if email and password:
             operator = True if (user_type == 'Operator') else False
@@ -49,6 +53,7 @@ def login():
             response = requests.post('http://localhost:5000/login', json=login_data).json()
             if(response['success']):
                 st.success('Login successful!')
+                switch_page("home")
             else:
                 st.error("Wrong Email or Password")
 
