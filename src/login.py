@@ -44,7 +44,8 @@ def login():
     email = st.text_input('Email')
     password = st.text_input('Password', type='password')
     user_type = st.selectbox('User Type', ['User', 'Operator'])
-
+    #if st.button("Home"):
+    #    switch_page("home")
     if st.button('Login'):
         if email and password:
             operator = True if (user_type == 'Operator') else False

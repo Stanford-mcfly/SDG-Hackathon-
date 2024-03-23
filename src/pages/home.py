@@ -4,7 +4,7 @@ from screeninfo import get_monitors
 from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(
-    page_title="My Streamlit App",
+    page_title="Zapspot - EV Charging station finder",
     page_icon="../img/icon.png",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -28,6 +28,7 @@ st.markdown(
             border-top: 1px solid #ccc;
             z-index: 1;
         }
+        
     }
     @media only screen and (min-width: 1201px) {
         .sidebar .sidebar-content {
@@ -47,6 +48,7 @@ st.markdown(
     body {
         overflow: hidden;
     }
+    
     .centered {
         position: fixed;
         top: 0;
@@ -70,6 +72,8 @@ for m in get_monitors():
 
 
 
+
+
 with open("../maps/routing.html", "r") as file:
     content = file.read()
 
@@ -82,6 +86,8 @@ components.html(
 
 )
 st.markdown("</div>", unsafe_allow_html=True)
+
+
 
 st.sidebar.title('Sidebar Title')
 
