@@ -102,16 +102,24 @@ function isAuthenticated(req, res, next) {
   });
 
   app.post("/operpage", async (req, res) => {  
-    const station = new stationmodel(stationData);
+    const data = {
+        location: req.body.location,
+        status: req.body.status,
+        slots: req.body.slots
+        };
+    const station = new operatorstationmodel(data);
     async function saveStation() {
         try {
             const savedStation = await station.save();
             console.log("Station inserted successfully:", savedStation);
+            res.json({ message: "operatorStation inserted successfully", success: true });
         } catch (error) {
             console.error("Error inserting station:", error);
         }
     }
-  })
+
+    saveStation();
+  });
 
 
 
