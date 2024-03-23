@@ -8,8 +8,11 @@ const cors = require("cors");
 app.use(cors());
 const { Registermodel, stationmodel } = require('./models/registerdb.js');
 const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 const bcrypt = require("bcrypt");
 const session = require('express-session');
+const saltRounds = 10;
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
   });
@@ -55,7 +58,7 @@ function isAuthenticated(req, res, next) {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
-        operator: req.body.operator,
+        operator: req.body.is_operator,
       });
       const savedData = await register.save();
       console.log("Data inserted successfully:", savedData);

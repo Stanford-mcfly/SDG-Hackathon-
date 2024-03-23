@@ -19,7 +19,7 @@ const registerSchema = new mongoose.Schema({
         max: 1024,
         trim: true
     },
-    opertor: {
+    operator: {
         type: Boolean,
         required: true,
         trim: true
