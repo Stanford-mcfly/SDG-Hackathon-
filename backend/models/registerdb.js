@@ -53,6 +53,23 @@ const stationschema = new mongoose.Schema({
         trim: true
     }
  });
+
+const operatorstationSchema = new mongoose.Schema({ 
+    location: {
+        type: String,
+        max: 255,
+        trim: true
+    },
+    status: {
+        type: Boolean,
+        trim: true
+    },
+    slots: {
+        type: Number,
+        trim: true
+    },
+ });
 const Registermodel = mongoose.model('register', registerSchema);
 const stationmodel = mongoose.model('stations',stationschema);
-module.exports = {Registermodel,stationmodel};
+const operatorstationmodel = mongoose.model('operatorstations',operatorstationSchema);
+module.exports = {Registermodel,stationmodel,operatorstationmodel};

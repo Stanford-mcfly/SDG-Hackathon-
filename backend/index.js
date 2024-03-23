@@ -6,7 +6,7 @@ require('dotenv').config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 app.use(cors());
-const { Registermodel, stationmodel } = require('./models/registerdb.js');
+const { Registermodel, stationmodel,operatorstationmodel } = require('./models/registerdb.js');
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const bcrypt = require("bcrypt");
@@ -95,12 +95,22 @@ function isAuthenticated(req, res, next) {
   });
 
   app.post("/session", async (req, res) => {  
-    const user = await Registermodel.findOne({ name: req.session.id });
-    res.json({ message: "Session exists",name:req.session.id,operator:user.operator, success: true });
+    const user = await Registermodel.findOne({ name: req.session.userId });
+    console.log("name:" ,req.session.userId);
+    res.json({ message: "Session exists", name:req.session.userId, operator:user.operator, success: true });
+    
   });
 
   app.post("/operpage", async (req, res) => {  
-
+    const station = new stationmodel(stationData);
+    async function saveStation() {
+        try {
+            const savedStation = await station.save();
+            console.log("Station inserted successfully:", savedStation);
+        } catch (error) {
+            console.error("Error inserting station:", error);
+        }
+    }
   })
 
 
