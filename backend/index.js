@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require("express");
 const app = express();
+
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
@@ -9,6 +10,9 @@ const { Registermodel, stationmodel } = require('./models/registerdb.js');
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const session = require('express-session');
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
+  });
 
 const connectionString = 'mongodb+srv://vijay:vijay67@sdg.uilubmu.mongodb.net/?retryWrites=true&w=majority';
 
@@ -90,8 +94,6 @@ function isAuthenticated(req, res, next) {
 
 
 
-console.log("Server is running on port:", port);
-
 async function findStation() {
     try {
         const station = await stationmodel.findOne({phone:18008332233});
@@ -102,6 +104,8 @@ async function findStation() {
 }
 
 findStation();
+
+
 
 // const stationData = {
 //     name: "CESL - Alandur Metro Charging Station",

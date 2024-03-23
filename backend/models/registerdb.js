@@ -34,7 +34,7 @@ const stationschema = new mongoose.Schema({
     address: {
         type: String,
         max: 1024,
-        trim: true
+        trim: true  
     },
     status: {
         type: Boolean,
