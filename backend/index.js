@@ -12,6 +12,13 @@ app.use(bodyParser.json());
 const bcrypt = require("bcrypt");
 const session = require('express-session');
 const saltRounds = 10;
+const corsOptions = {
+    origin: 'http://yourfrontenddomain.com',
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
@@ -76,11 +83,13 @@ function isAuthenticated(req, res, next) {
       const user = await Registermodel.findOne({ email: req.body.email });
       if (user) {
         const result = await bcrypt.compare(req.body.password, user.password);
+        const sessionId = req.sessionID;
+        console.log("Session ID:", sessionId);
         // setCorsHeaders(res);
         if (result) {
           console.log("Name:",user.name);
           req.session.userId = user.name;
-          res.json({ message: "Login successful" , success: true ,primary_key: req.session.userId});
+          res.json({ message: "Login successful" , success: true ,primary_key: req.session.userId,sessionId: sessionId});
         } else {
           res.json({ message: "Password does not match" , success: false});
         }
