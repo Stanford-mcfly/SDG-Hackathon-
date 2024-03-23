@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const express = require("express");
 const app = express();
+let session_user;
 
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 app.use(cors());
-const { Registermodel, stationmodel,operatorstationmodel } = require('./models/registerdb.js');
+const { Registermodel, stationmodel,operatorstationmodel,userstationmodel} = require('./models/registerdb.js');
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const bcrypt = require("bcrypt");
@@ -84,7 +85,8 @@ function isAuthenticated(req, res, next) {
       if (user) {
         const result = await bcrypt.compare(req.body.password, user.password);
         const sessionId = req.sessionID;
-        console.log("Session ID:", sessionId);
+        session_user = user.name;
+        console.log("Session_user:", session_user);
         // setCorsHeaders(res);
         if (result) {
           console.log("Name:",user.name);
@@ -104,9 +106,9 @@ function isAuthenticated(req, res, next) {
   });
 
   app.post("/session", async (req, res) => {  
-    const user = await Registermodel.findOne({ name: req.session.userId });
-    console.log("name:" ,req.session.userId);
-    res.json({ message: "Session exists", name:req.session.userId, operator:user.operator, success: true });
+    const user = await Registermodel.findOne({ name: session_user });
+    console.log("name:" ,session_user);
+    res.json({ message: "Session exists", name:session_user, operator:user.operator, success: true });
     
   });
 
@@ -128,6 +130,27 @@ function isAuthenticated(req, res, next) {
     }
 
     saveStation();
+  });
+  app.post("/userpage", async (req, res) => {
+    const data = {
+        EV_mod: req.body.EV_mod,
+        chargertype: req.body.chargertype,
+        phone: req.body.phonenumber,
+        };
+    const station = new userstationmodel(data);
+    async function saveStation() {
+        try {
+            const savedStation = await station.save();
+            console.log("Station inserted successfully:", savedStation);
+            res.json({ message: "Station inserted successfully", success: true });
+        } catch (error) {
+            console.error("Error inserting station:", error);
+        }
+    }
+
+    saveStation();
+  
+
   });
 
 
