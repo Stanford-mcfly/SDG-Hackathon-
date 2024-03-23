@@ -31,7 +31,7 @@ def register():
             response = requests.post('http://localhost:5000/register', json=login_data).json()
             if(response['success']):
                 st.success('Register successful!')
-                switch_page("home")
+                switch_page("Home")
             else:
                 st.error("Wrong Email or Password")
            
@@ -54,7 +54,7 @@ def login():
             response = requests.post('http://localhost:5000/login', json=login_data).json()
             if(response['success']):
                 st.success('Login successful!')
-                switch_page("home")
+                switch_page("Home")
             else:
                 st.error("Wrong Email or Password")
 
