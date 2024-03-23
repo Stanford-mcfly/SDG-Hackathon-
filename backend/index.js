@@ -94,19 +94,28 @@ function isAuthenticated(req, res, next) {
     }
   });
 
+  app.post("/session", async (req, res) => {  
+    const user = await Registermodel.findOne({ name: req.session.id });
+    res.json({ message: "Session exists",name:req.session.id,operator:user.operator, success: true });
+  });
+
+  app.post("/operpage", async (req, res) => {  
+
+  })
 
 
 
-async function findStation() {
-    try {
-        const station = await stationmodel.findOne({phone:18008332233});
-        console.log(station.name);
-    } catch (error) {
-        console.error(error);
-    }
-}
 
-findStation();
+// async function findStation() {
+//     try {
+//         const station = await stationmodel.findOne({phone:18008332233});
+//         console.log(station.name);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
+
+// findStation();
 
 
 
