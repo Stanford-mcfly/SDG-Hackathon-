@@ -83,12 +83,59 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="setSourceAndDestination()">Go</button>
+          
+          <button type="button" class="btn btn-primary" onclick="setSourceAndDestination()" id="gob">Go</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="speakButton">Speak</button>
+          
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Direction Modal -->
+  <div class="modal fade" id="vehicleModal" tabindex="-1" role="dialog" aria-labelledby="vehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vehicleModalLabel">Electric Vehicle Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="vehicleName"></p>
+                <p id="v1"></p>
+                <p id="v2"></p>
+                <p id="v3"></p>
+                <p id="v4"></p>
+                <p id="v5"></p>
+                <p id="v6"></p>
+
+                <!-- Rating Text Box -->
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <input type="number" class="form-control" id="rating" min="1" max="5">
+                </div>
+
+                <!-- Waiting Status Drop-down Menu -->
+                <div class="form-group">
+                    <label for="waitingStatus">Waiting Status:</label>
+                    <select class="form-control" id="waitingStatus">
+                        <option value="open">Open</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="start-speech-recognition">Voice</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitDirection">Submit</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 
   <script>
     var map = L.map('map').setView([51.505, -0.09], 13);
@@ -104,7 +151,7 @@
 
     // Custom icons
     var myLocationIcon = L.icon({
-      iconUrl: 'path/to/my-location-icon.png',
+      iconUrl: 'https://cdn4.iconfinder.com/data/icons/social-messaging-productivity-5/128/map-location-person-512.png',
       iconSize: [32, 32],
       iconAnchor: [16, 32],
       popupAnchor: [0, -32],
@@ -169,6 +216,30 @@
     map.on('locationerror', function(e) {
       alert("Location access denied.");
     });
+    // Event listener for the voice button
+document.getElementById('start-speech-recognition').addEventListener('click', function() {
+    // Create an empty string to store all EV details
+    var evDetails = '';
+
+    // Loop through the EV details and concatenate them to the string
+    evDetails += document.getElementById('vehicleName').innerText + '. ';
+    evDetails += document.getElementById('v1').innerText + '. ';
+    evDetails += document.getElementById('v2').innerText + '. ';
+    evDetails += document.getElementById('v3').innerText + '. ';
+    evDetails += document.getElementById('v4').innerText + '. ';
+    evDetails += document.getElementById('v5').innerText + '. ';
+    evDetails += document.getElementById('v6').innerText + '. ';
+
+    // Create a new SpeechSynthesisUtterance object with EV details
+    var speech = new SpeechSynthesisUtterance(evDetails);
+
+    // Configure speech synthesis settings
+    speech.lang = 'en-US'; // Set language
+
+    // Speak the EV details
+    speechSynthesis.speak(speech);
+});
+
 
     // Function to handle setting source and destination from the modal
     function setSourceAndDestination() {
@@ -219,7 +290,7 @@
         }
       });
     }
-
+   
     // Initialize Leaflet Control Geocoder plugin
     var geocoder = L.Control.Geocoder.nominatim();
     var control = L.Control.geocoder({
@@ -232,6 +303,409 @@
       }
     });
     control.addTo(map);
+       // Sample JSON data with charging station information
+       var chargingStations =[
+  {
+    "name": "CESL - Pallavaram Metro Charging Station",
+    "address": "GST Road, Pallavaram",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9827,
+    "longitude": 80.1742,
+    "price": 38,
+    "average_rating": 4.3
+  },
+  {
+    "name": "CESL - Thirisulam Metro Charging Station",
+    "address": "GST Road, Thirisulam",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9867,
+    "longitude": 80.1783,
+    "price": 37,
+    "average_rating": 4.1
+  },
+  {
+    "name": "CESL - Tirusulam Metro Charging Station",
+    "address": "GST Road, Tirusulam",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9828,
+    "longitude": 80.1817,
+    "price": 39,
+    "average_rating": 4.5
+  },
+  {
+    "name": "CESL - Nanganallur Road Metro Charging Station",
+    "address": "GST Road, Nanganallur Road",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9814,
+    "longitude": 80.1885,
+    "price": 35,
+    "average_rating": 4.2
+  },
+  {
+    "name": "CESL - Meenambakkam Metro Charging Station",
+    "address": "GST Road, Meenambakkam",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9875,
+    "longitude": 80.1642,
+    "price": 40,
+    "average_rating": 4.4
+  },
+  {
+    "name": "CESL - Aminjikarai Metro Charging Station",
+    "address": "Jawaharlal Nehru Road, Aminjikarai",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0727,
+    "longitude": 80.2245,
+    "price": 36,
+    "average_rating": 4.6
+  },
+  {
+    "name": "CESL - Vadapalani Metro Charging Station",
+    "address": "Arcot Road, Vadapalani",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0507,
+    "longitude": 80.2129,
+    "price": 35,
+    "average_rating": 4.3
+  },
+  {
+    "name": "CESL - CMBT Metro Charging Station",
+    "address": "100 Feet Inner Ring Road, Arumbakkam",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0738,
+    "longitude": 80.1983,
+    "price": 38,
+    "average_rating": 4.2
+  },
+  {
+    "name": "CESL - Koyambedu Metro Charging Station",
+    "address": "Inner Ring Road, Koyambedu",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0723,
+    "longitude": 80.1959,
+    "price": 39,
+    "average_rating": 4.4
+  },
+  {
+    "name": "CESL - Alandur Metro Charging Station",
+    "address": "Grand Southern Trunk Road, St Thomas Mount",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0049,
+    "longitude": 80.1996,
+    "price": 37,
+    "average_rating": 4.5
+  },
+  {
+    "name": "CESL - Airport Metro Charging Station",
+    "address": "GST Road, Airport Cargo Terminal",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9826,
+    "longitude": 80.1662,
+    "price": 38,
+    "average_rating": 4.3
+  },
+  {
+    "name": "Tata Power - Fairfield - by Marriott Charging Station",
+    "address": "Near Main Entrance, Mahindra World City",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-IICHAdeMOAC TYPE 2",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.8325,
+    "longitude": 80.0408,
+    "price": 39,
+    "average_rating": 4.4
+  },
+  {
+    "name": "Tata Power - Four Points by Sheraton Charging Station",
+    "address": "Survey No 169, Plot 1B And 1A, Rajiv Gandhi Salai, Kumaran Nagar, Sholinganallur",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-IICHAdeMOAC TYPE 2",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.8929,
+    "longitude": 80.2242,
+    "price": 37,
+    "average_rating": 4.3
+  },
+  {
+    "name": "Tata Power - Hotels Pumpkin Tales Alwarpet (Private - Charger)",
+    "address": "37, 20, Bheemanna Garden St, Alwarpet",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "9742211172",
+    "connectors": "CCS-IICHAdeMO",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0364,
+    "longitude": 80.2531,
+    "price": 36,
+    "average_rating": 4.2
+  },
+  {
+    "name": "MEENAMBAKKAM Charging Station",
+    "address": "Great Southern Trunk Road, National Airports Authority Colony, Meenambakkam",
+    "status": "Closed now",
+    "opening_hours": "10:00 AM - 07:00 PM",
+    "phone": "9841824572",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9864,
+    "longitude": 80.1685,
+    "price": 38,
+    "average_rating": 4.4
+  },
+  {
+    "name": "CESL - Nandanam Metro Charging Station",
+    "address": "Rathna Nagar, Alwarpet",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0284,
+    "longitude": 80.2457,
+    "price": 40,
+    "average_rating": 4.5
+  },
+  {
+    "name": "Hotel Vadapalani (Private - Charger)",
+    "address": "61 Inner Ring Rd Thiru Nagar Colony NGO Colony",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "9742211172",
+    "connectors": "CCS-IICHAdeMO",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0508,
+    "longitude": 80.2117,
+    "price": 37,
+    "average_rating": 4.3
+  },
+  {
+    "name": "Tata Power - Gurudev Charging Station",
+    "address": "Old No. 90, New No. 1090, E.V.R. Periyar High Road",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "9742211172",
+    "connectors": "CCS-IICHAdeMO",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0718,
+    "longitude": 80.2379,
+    "price": 38,
+    "average_rating": 4.2
+  },
+  {
+    "name": "Fairfield - By Marriott Charging station",
+    "address": "Central Ave, Mahendra Word City, Maraimala Nagar, Cheeni",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 12:00 PM",
+    "phone": "8527000290",
+    "connectors": "CCS-IIAC PLUG POINTCHAdeMO",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.8322,
+    "longitude": 80.0408,
+    "price": 40,
+    "average_rating": 4.4
+  },
+  {
+    "name": "Zulaikha Motors Charging Station",
+    "address": "10/8 3rd Main Road Below Telephone Exchange Bridge Sai Nagar Ambattur Industrial Estate",
+    "status": "Closed now",
+    "opening_hours": "10:00 AM - 07:00 PM",
+    "phone": "9742211172",
+    "connectors": "CCS-IICHAdeMOSocket3PIN",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0972,
+    "longitude": 80.1636,
+    "price": 35,
+    "average_rating": 4.1
+  },
+  {
+    "name": "Diselecti Automotive Pvt Ltd",
+    "address": "60/2 61/2 East Coast Road Chettiyar Agaram",
+    "status": "Closed now",
+    "opening_hours": "10:00 AM - 07:00 PM",
+    "phone": "9884866993",
+    "connectors": "AC TYPE 2",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 12.9176,
+    "longitude": 80.2532,
+    "price": 37,
+    "average_rating": 4.3
+  },
+  {
+    "name": "Tata Power - FPL Vehicles Charging Station",
+    "address": "No. 824 Annasali Nandnam Charging Station",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "18008332233",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0229,
+    "longitude": 80.2093,
+    "price": 38,
+    "average_rating": 4.4
+  },
+  {
+    "name": "COC - Koyambedu Charging Station",
+    "address": "Station, Kaliamman Main Road, Koyembedu",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "connectors": "CCS-II",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0733,
+    "longitude": 80.1939,
+    "price": 36,
+    "average_rating": 4.5
+  },
+  {
+    "name": "Kazam - Sait Colony Charging Station",
+    "address": "26,Sait Colony 1st Street, Egmore",
+    "status": "Open now",
+    "opening_hours": "12:00 AM - 11:59 PM",
+    "phone": "9789514174",
+    "connectors": "Bharat AC001",
+    "direction_img": "img",
+    "get_direction": "Get Direction",
+    "latitude": 13.0721,
+    "longitude": 80.2563,
+    "price": 37,
+    "average_rating": 4.2
+  }
+]
+
+
+
+    // Loop through the charging stations data and add EV icons to the map
+    chargingStations.forEach(station => {
+      var evIcon = L.icon({
+        iconUrl: 'https://cdn5.vectorstock.com/i/1000x1000/54/04/electric-vehicle-charging-station-icon-vector-20575404.jpg', // URL to the EV marker image
+        iconSize: [32, 32], // Adjust size as needed
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+      });
+
+      var evMarker = L.marker([station.latitude, station.longitude], { icon: evIcon }).addTo(map);
+
+      // Add a click event listener to the marker to open the modal with station name
+      evMarker.on('click', function () {
+        // Set the station name in the modal content
+        document.getElementById('vehicleName').innerText = "Name:"+station.name;
+        document.getElementById('v1').innerText = "address:"+station.address;
+        document.getElementById('v2').innerText = "status:"+station.status;
+        document.getElementById('v3').innerText = "phone:"+station.phone;
+        document.getElementById('v4').innerText = "charge type:"+station.connectors;
+        document.getElementById('v5').innerText = "price per kwh:"+station.price;
+        document.getElementById('v6').innerText = "average_rating:"+station.average_rating;
+
+        // Open the modal
+        $('#vehicleModal').modal('show');
+      });
+    });
+    document.getElementById('submitDirection').addEventListener('click', function() {
+        // Your submission logic here
+        // For now, just showing an alert and closing the modal
+        alert('Submitted successfully');
+        $('#directionModal').modal('hide');
+        document.getElementById('rating').value = ''; // Reset source input
+        document.getElementById('waitingStatus').value = ''; 
+    });
+    document.getElementById('speakButton').addEventListener('click', function() {
+    // Start speech recognition
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+
+    recognition.onresult = function(event) {
+      // Get the recognized speech result
+      var speechResult = event.results[0][0].transcript;
+
+      // Extract two words from the recognized speech
+      var words = speechResult.split(' ').slice(0, 2); // Extract the first two words
+
+      // Remove the last character from each word
+      var firstWord = words[0].slice(0, -1);
+      var secondWord = words[1].slice(0, -1);
+
+      // Update the source and destination input fields with the modified words
+      document.getElementById('sourceInput').value = firstWord;
+      document.getElementById('destinationInput').value = secondWord;
+
+      // Trigger a click event on the "Go" button
+      document.getElementById('gob').click();
+    };
+
+    // Start speech recognition
+    recognition.start();
+});
+
   </script>
 </body>
 </html>
